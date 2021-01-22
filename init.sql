@@ -1,0 +1,29 @@
+CREATE DATABASE IF NOT EXISTS dev;
+CREATE DATABASE IF NOT EXISTS test;
+USE dev;
+CREATE TABLE IF NOT EXISTS Users (
+ID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ExtID varchar(255),
+Username varchar(255) NOT NULL UNIQUE,
+Email varchar(255) UNIQUE,
+Password varchar(255),
+Online bool,
+InGame bool,
+RegisteredViaGoogle bool,
+CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+
+CREATE TABLE IF NOT EXISTS Friendships (
+ID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+User1 varchar(255) NOT NULL,
+User2 varchar(255) NOT NULL,
+IsPending bool,
+CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+
+CREATE TABLE IF NOT EXISTS Games (
+ID int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+User1 varchar(255) NOT NULL,
+User2 varchar(255) NOT NULL,
+IsPending bool,
+IsFinished bool,
+Winner varchar(255),
+CreatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP);

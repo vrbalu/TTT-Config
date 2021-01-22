@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  db:
+    image: mariadb
+    restart: always
+    env_file: db.env
+    command: --init-file /data/application/init.sql
+    volumes:
+        - ./init.sql:/data/application/init.sql
+    ports:
+      - '3306:3306'
+  api:
+    container_name: 'api'
+    build: './api'  
+    ports:
+      - '8081:8080'
+    volumes:
+      - './api:/go/src/app'
+    depends_on:
+      - 'db'
+    env_file: api.env
+  web:
+    container_name: 'web'
+    build: './web'
+    ports:
+      - '8080:8080'
+    command: [nginx, '-g', 'daemon off;']
+    depends_on:
+      - api
+      
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    env_file: phpmyadmin.env
+    ports:
+      - 8082:80
